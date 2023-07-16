@@ -284,37 +284,39 @@
 
 																</ul>
 															</div>
-															<div class="col-12">
-																<h5>Encrypted message:</h5>
-																<p class="button alt fit"><span id="encryptedMessage"></span ></p>
-															</div>
+
 														</div>
 													</form>
 											</div>
 											</section>
+											<div class="container">
+												<div class="col-12">
+													<h4><em>Encrypted message:</em></h4>
+													<p class="button alt fit"><span id="encryptedMessage"></span ></p>
+												</div>
+											</div>
 											<section>
 												<div class="container">
 													<h4><em>Decryption</em></h4>
 													<form id="decryptForm">
 														<div class="col-6 col-12-xsmall">
 															<div class="col-12">
-																<label for="dmessage">Encrypted Message:</label>
-																<input type="text" id="dmessage"><br>
+																<input type="text" id="dmessage" placeholder="Enter ciphertext for decryption"><br>
 															</div>
 															<div class="col-12">
 																<ul class="actions fit small">
 																	<li><input type="number" placeholder=" Input decryption key" id="dkey" /></li>
 																</ul>
 															</div>
-															
 															<div class="col-12">
-																<h5>Decrypted message:</h5>
-																<p class="button alt fit"><span id="decryptedMessage"></span ></p>
+																<ul class="actions fit small">
+																	<li><input type="submit" class="primary" value="Decrypt"></li>
+																	<li><input type="reset" value="Reset" /></li>
+																</ul>
 															</div>
-															
-
 															<div class="col-12">
-																<input type="submit" value="Decrypt">
+																<h4><em>Decrypted message:</em></h4>
+																<p class="button alt fit"><span id="decryptedMessage"></span ></p>
 															</div>
 														</div>
 													</form>
