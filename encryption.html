@@ -48,7 +48,7 @@
 								</div>
 								<div class="container">
 									<header class="major">
-										<h2>Project #1</h2>
+										<h2>Caesar Cipher in C++</h2>
 									</header>
 									<section>
 										<h3>Summary</h3>
@@ -99,9 +99,13 @@
 											 tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. 
 											 Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu 
 											 faucibus. Integer ac pellentesque praesent.
+
+											 
 											</p>
+						
 											<h5>2. ASCII codes</h5>
-											<p><span class="image right"><img src="images/avatar.jpg" alt="" /></span>
+											<p><span class="image fit"><img src="images/ascii.png" alt="ASCII table with the standard character set (0-127)." /></span>
+												
 												Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis
 												felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis
 												in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat
@@ -228,18 +232,129 @@
 											skills and resilience in the face of difficulties.
 										</p>
 									</section>
+															<!-- Five -->
+							<section id="five">
+								<div class="container">
+									<h3>Contact Me</h3>
+									<p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum integer. Integer eu ante ornare amet commetus.</p>
+									<form method="post" action="#">
+										<div class="row gtr-uniform">
+											<div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name" /></div>
+											<div class="col-6 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Email" /></div>
+											<div class="col-12"><input type="text" name="subject" id="subject" placeholder="Subject" /></div>
+											<div class="col-12"><textarea name="message" id="message" placeholder="Message" rows="6"></textarea></div>
+											<div class="col-12">
+												<ul class="actions">
+													<li><input type="submit" class="primary" value="Send Message" /></li>
+													<li><input type="reset" value="Reset Form" /></li>
+												</ul>
+											</div>
+										</div>
+									</form>
+								</div>
+							</section>
+							
 									<section>
+								
 										<h3>Code samples & Demo</h3>
 										<p>If possible, provide code snippets or links to the GitHub repository 
 											showcasing the relevant parts of your project. Additionally, consider 
 											embedding a live demo or screenshots to give visitors a visual 
 											representation of your work.
 										</p>
+										<hr />
+										
+											<section>
+												<div class="container">
+													<h4><em>Encryption</em></h4>
+													<form id="encryptForm">
+														<div class="col-6 col-12-xsmall">
+															<div class="col-12">
+																<input type="text" id="emessage" placeholder="Enter plaintext for encryption" rows="2"><br>
+															</div>
+															<div class="col-12">
+																<ul class="actions fit small">
+																	<li><input type="number" placeholder=" Create cipherkey" id="key" /></li>
+																</ul>
+															</div>
+															<div class="col-12">
+																<ul class="actions fit small">
+																	<li><input type="submit" class="primary" value="Encrypt" /></li>
+																	<li><input type="reset" value="Reset" /></li>
+
+																</ul>
+															</div>
+															<div class="col-12">
+																<h5>Encrypted message:</h5>
+																<p class="button alt fit"><span id="encryptedMessage"></span ></p>
+															</div>
+														</div>
+													</form>
+											</div>
+											</section>
+											<section>
+												<div class="container">
+													<h4><em>Decryption</em></h4>
+													<form id="decryptForm">
+														<div class="col-6 col-12-xsmall">
+															<div class="col-12">
+																<label for="dmessage">Encrypted Message:</label>
+																<input type="text" id="dmessage"><br>
+															</div>
+															<div class="col-12">
+																<ul class="actions fit small">
+																	<li><input type="number" placeholder=" Input decryption key" id="dkey" /></li>
+																</ul>
+															</div>
+															
+															<div class="col-12">
+																<h5>Decrypted message:</h5>
+																<p class="button alt fit"><span id="decryptedMessage"></span ></p>
+															</div>
+															
+
+															<div class="col-12">
+																<input type="submit" value="Decrypt">
+															</div>
+														</div>
+													</form>
+											<script>
+												document.getElementById('encryptForm').addEventListener('submit', function(event) {
+													event.preventDefault();
+													var key = document.getElementById('key').value;
+													var message = document.getElementById('emessage').value;
+
+													var encryptedMessage = "";
+													for (var i = 0; i < message.length; i++) {
+														encryptedMessage += String.fromCharCode(message.charCodeAt(i) + parseInt(key));
+													}
+													document.getElementById('encryptedMessage').textContent = encryptedMessage;
+													document.getElementById('dmessage').value = encryptedMessage;
+
+												});
+
+												document.getElementById('decryptForm').addEventListener('submit', function(event) {
+													event.preventDefault();
+													var key = document.getElementById('dkey').value;
+													var encryptedMessage = document.getElementById('dmessage').value;
+
+													var decryptedMessage = "";
+													for (var i = 0; i < encryptedMessage.length; i++) {
+														decryptedMessage += String.fromCharCode(encryptedMessage.charCodeAt(i) - parseInt(key));
+													}
+													document.getElementById('decryptedMessage').textContent = decryptedMessage;
+												});
+											</script>
 										<a href="#" class="icon brands fa-github"><span class="label">Github</span> Source code</a>
 										<pre>
 											<code>blabla</code>
 										</pre>
-									</section>
+									</container>
+										</section>
+							
+								</div>
+								</section>
+								
 									<section>
 										<h3>Lessons learned</h3>
 										<p>Reflect on the lessons you learned from the project. This section allows you 
@@ -279,4 +394,3 @@
 
 	</body>
 </html>
-7uNGBtRqHrgWhCG
