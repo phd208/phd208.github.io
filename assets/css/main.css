@@ -13,10 +13,10 @@
 	--strong: #777;
 	--border-bottom: #e4e4e4;
 	--hr-border-bottom: #f4f4f4;
-	--header-background: #4acaa8;
+	--header-background: #1f3466;
 	--header-color: #d2f2e9;
-	--header-p: #b7eadc;
-	--header-nav-ul-li: #5ccfb1;  
+	--header-p: #a2bdd6;
+	--header-nav-ul-li: #7eb2e3;  
 	--code-background: #555;
 	--code-color: #fff;
 	--section-header: #aaa;
@@ -26,11 +26,13 @@
 	--button-hover-background: #a5a5a5;
 	--button-active-background: #8b8b8b;
 	--button-alt-active-background: #eaeaea;
-	--button-primary-hover-background: #5ed0b1;
-	--button-primary-active-background: #39c29d;
+	--button-primary-hover-background: #5e9dd0;
+	--button-primary-active-background: #5787c9;
 	--footer-color: #c0c0c0;
 	--title-bar-background: #222;
 }
+
+
 
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
