@@ -14,7 +14,7 @@
 	--border-bottom: #e4e4e4;
 	--hr-border-bottom: #f4f4f4;
 	--header-background: #1f3466;
-	--header-color: #d2f2e9;
+	--header-color: #b3d0e9;
 	--header-p: #a2bdd6;
 	--header-nav-ul-li: #7eb2e3;  
 	--code-background: #555;
@@ -157,7 +157,7 @@ input, select, textarea {
 	}
 
 	p {
-		margin: 0 0 2.25em 0;
+		margin: 0 0 1em 0;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
@@ -240,7 +240,7 @@ input, select, textarea {
 	pre {
 		font-family: "Source Code Pro", monospace;
 		font-size: 0.9em;
-		margin: 0 0 2.25em 0;
+		margin: 0 0 0 0;
 	}
 
 		pre code {
@@ -248,7 +248,7 @@ input, select, textarea {
 			display: block;
 			line-height: 1.5em;
 			overflow-x: auto;
-			padding: 1em 1.5em;
+			padding: 1.3em 1.3em 1.3em 1.3em;
 		}
 
 	.align-left {

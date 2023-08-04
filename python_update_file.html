@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Pedro Dornas</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <!-- <link rel="stylesheet" href="assets/css/code.css" /> -->
+        <link rel="stylesheet" href="assets/css/main.css"/>
+        <link rel="stylesheet" href="assets/css/prism.css"/>
+       
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<section id="header">
+				<header>
+					<span class="image avatar"><img src="images/profile-pic.png" alt="" /></span>
+					<h1 id="logo"><a href="#">Pedro Dornas</a></h1>
+					<p>I got reprogrammed by a rogue AI<br />
+					and now I'm totally cray</p>
+				</header>
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html#one">Who am I</a></li>
+						<li><a href="index.html#two">Skills</a></li>
+						<li><a href="index.html#three">Featured Projects</a></li>
+                        <li><a href="index.html#four" class="active">Hands-on Labs</a></li>
+						<li><a href="index.html#five">Contact</a></li>
+					</ul>
+				</nav>
+				<footer>
+					<ul class="icons">
+						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+						<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+				</footer>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="image main" data-position="center">
+									<img src="images/banner.jpg" alt="" />
+								</div>
+								<div class="container">
+									<header class="major">
+										<h2>Update a file through a Python script</h2>
+									</header>
+									<section>
+										<h3>Summary</h3>
+										<p> In this project, I developed a command-line tool to manage 
+                                            an allow list of IP addresses, which is utilized to control 
+                                            access to restricted content within an organization. Written 
+                                            in Python, this tool is designed to offer a seamless way to 
+                                            add or remove IP addresses from the allow list, while also 
+                                            ensuring that the list remains up-to-date.
+										</p>
+									</section>
+									<section>
+										<h3>Key features</h3>
+                                        <ol>
+                                            <li><b>File Handling:</b> Upon being called from the command line
+                                                the tool checks whether the allow list file <code>allow_list.txt</code>
+                                                exists and reads its content if available.</li>
+                                            <li><b>Adding IP addresses:</b> Upon typing a simple command flag (<code>--add</code>)
+                                                users can add one or more IP addresses to the allow list. </li>
+                                            <li><b>Removing IP addresses: </b>Conversely, users can remove one or more 
+                                                IP addresses using the command flag (<code>--remove</code>), revoking
+                                                access from spceific IPs as needed.</li>
+                                            <li><b>Ease of use: </b>The tool is built to be used from the command line,
+                                                making it accessible for administrators and engineers who may need to
+                                                modify the allow list.</li>
+                                            <li><b>Automated management:</b> By automating the process of updating the allow 
+                                                list, this tool significantly reduces manual effort, eliminates human error,
+                                                and ensures that the access controls are always current.</li>
+                                        </ol>
+									</section>
+									<section>
+									<h3>Technologies used</h3>
+										<span>The script is written in Python and makes use of the following libraries:</span>
+                                            <ul>
+                                                <li><code>os</code>: this library provides a way of interfacing with the 
+                                                underlying operating system. In the code, it is used to check whether the
+                                                allow list file exists. </li>
+                                                <li><code>argparse</code>: this library is used to parse command-line arguments.
+                                                It makes it easy to write user-friendly command-line interfaces, allowing the script to
+                                                define what arguments it requires and how these arguments should be handled.</li>
+                                                <li><code>re</code>: this module provides regular expression matching operations,
+                                                which the script uses to validate the IP passed as parameters according to 
+                                                IPv4 and IPv6 formats.</li>
+                                            </ul>
+									</section>
+                                    <section>
+                                        
+                                    </section>
+									<section>
+										<h3>Steps</h3>
+										<p> After importing the necessary libraries, the code defines 
+                                            the function <code>update_allow_list()</code>, responsible for 
+                                            the heavy lifting in the script by first creating the list – 
+                                            if none exists – and then updating it by adding or removing 
+                                            the IPs as commanded, after a simple input validation.
+										</p>
+										<section>
+											<h4>Step 1</h4>
+											<p>Naturaly, the code starts by importing aforementioned libraries:</p>
+
+                                            <pre><code class="language-python">import os
+import argparse
+import re</code></pre>
+<br>
+											<h4>Step 2</h4>
+											<p>A helper function <code>is_valid_ip()</code> is defined and implemented,
+                                            in order to check whether the IPs passed in as parameters conform to IPv4 or IPv6
+                                            format. If so, it returs True; if not, it returns False, and prints an error 
+                                            message to the console.  </p>
+                                            <pre><code class="language-python">def is_valid_ip(ip_address):
+  # Pattern for IPv4
+  pattern_ipv4 = r'^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+  # Pattern for IPv6
+  pattern_ipv6 = r'^((([0-9A-Fa-f]{1,4}:){1,6}:)|(([0-9A-Fa-f]{1,4}:){7}))([0-9A-Fa-f]{1,4})$'
+    
+  if bool(re.match(pattern_ipv4, ip_address) or re.match(pattern_ipv6, ip_address)):
+     return True
+  else:
+     print("{} is not a valid IP address.".format(ip_address))
+     return False</code></pre>
+    <br>
+                                    <h4>Step 3</h4>
+                                    <p> 
+                                        The <code>update_allow_list()</code> function begins by initializing an empty 
+                                        list of IP addresses – which will be populated with the IP addresses already
+                                        in the allow list (in the built-in file path <code>allow_list.txt</code>), 
+                                        and eventually have its contents appended or removed as directed by the user.
+                                    </p>
+                                    <p>
+                                        The <code>os.path</code> module as the code calls its function <code>exists()</code>
+                                        which returns <code>True</code> if the parameter refers to an existing path 
+                                        or an open file descriptor, and returns <code>False</code> for broken symbolic links.
+                                    </p>
+                                    <p>
+                                        Upon checking the existence of the file, the code opens it in read mode,
+                                        assiging the returning object to the <code>file</code> variable. Inside the block,
+                                        the files contents are read and split into lines with <code>ip_address = file.read().splitlines()</code>.  
+                                    </p>
+                                    <p>
+                                        By preceding the <code>open()</code> function with the keyword <code>with</code>,
+                                        the code ensures that the file is properly closed once its suite finishes
+                                        execution, even if an exception is raised within the block. This helps prevent
+                                        file leaks, and makes the code cleaner and more robust.
+                                    </p>
+
+<pre><code class="language-python">def update_allow_list(add_list=[], remove_list=[]):
+    ip_addresses = []
+    file_path = "allow_list.txt"
+
+    # Check if the file exists, and if it does, read the contents
+    if os.path.exists(file_path):
+        with open(file_path, "r") as file:
+            ip_addresses = file.read().splitlines()
+</code></pre> <br>
+<h4>Step 4</h4>                            
+<p>
+The code then iterates through the <code>remove_list</code> argument – iteration
+which will only be executed if a remove list is present. Each IP in the remove list,
+upon having its format positively checked, is then removed from the <code>ip_addresses</code>
+list variable.
+</p>
+<pre><code class="language-python"># Remove IPs from the list
+for ip in remove_list:
+    if is_valid_ip(ip):
+        if ip in ip_addresses:
+            ip_addresses.remove(ip)
+            print("IP {} successfully removed from {}".format(ip, file_path))
+        else:
+            print("IP {} not found in {}".format(ip, file_path))
+</code></pre><br>
+<h4>Step 5</h4>
+<p>
+    The code also iterates through the <code>add_list</code> argument, in the same mode as
+    it does the <code>remove_list</code>. Upon input validation, the IP is appended to
+    the <code>ip_addresses</code> variable, or a message is displayed if it had already 
+    been previously added.
+</p>
+<pre><code class="language-python"># Add IPs to the list
+for ip in add_list:
+    if is_valid_ip(ip):
+        if ip not in ip_addresses:
+            ip_addresses.append(ip)
+            print("IP {} sucessfully added to {}".format(ip, file_path))
+        else:
+            print("IP {} previously added to {}".format(ip, file_path))
+</code></pre><br>
+<h4>Step 6</h4>
+<p>
+The <code>str.join()</code> function is then called to concatenate all the IPs in the <code>ip_addresses</code>
+list, separated by lines. The buil-in <code>open()</code> function is then called once more, in write mode,
+and saves the updated allow list – concluding the execution of the <code>update_allow_list()</code> function. 
+</p>
+<pre><code class="language-python"># Write the updated list to the file (this 
+# will create the file if it doesn't exist)
+updated_ip_addresses = "\n".join(ip_addresses)
+with open(file_path, "w") as file:
+    file.write(updated_ip_addresses)
+</code></pre><br>
+<h4>Step 7</h4>
+<p>
+Since the script is run directly, and not imported as a module, this behaviour is enforced
+by <code>if __name__ == "__main__"</code>. Inside the block:
+<ul><li>an argument <code>parser</code> object is created in order to hold the information necessary 
+    to parse the command line into Python data types</li>
+    <li>the <code>add_argument()</code> method defines the two optional arguments, 
+    for add and remove, respectively</li>
+    <li>the <code>nargs='+'</code> parameter allows for one or more values for each argument 
+        (which will only be checked if the add or remove tag is used)</li>
+    <li>the <code>default=[]</code> sets the value to an empty list if no argument is provided.</li>
+    <li><code>parser.parse_args()</code> parses the arguments provided on the command line and 
+        returns them as a namespace object, containing the values for each argument as defined – 
+        meaning: it will have two attributes: <code>args.add</code> and <code>args.remove</code>, 
+         each containing the list of IP addresses passed for the corresponding command-line option</li>
+    <li>after the parser attributes have been extracted, <code>update_allow_list(args.add, args.remove)</code>
+        is then called, initiating the updating procedure.</li>
+</ul></p>
+<pre><code class="language-python">if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Update the allow list of IP addresses.')
+    parser.add_argument('-a', '--add', nargs='+', default=[], help='List of IP addresses to add.')
+    parser.add_argument('-r', '--remove', nargs='+', default=[], help='List of IP addresses to remove.')
+
+    args = parser.parse_args()
+
+    update_allow_list(args.add, args.remove)</code></pre><br>
+
+										</section>
+									</section>
+									<section>
+										<h3>Challenges & Solutions</h3>
+										<p>Despite being a somewhat simple script – and maybe because of it – the major challenge
+                                        was to try to keep the code simple, easily readabla and maintainable, and, at the same time
+                                        have a minimal amount of validation and responsiveness to the user. The solution was to try and 
+                                        find a balance between simplicity and robustness, where the input is validated, on IP at a time 
+                                        and the code is responsive to the user if an IP to be removed is not in list or an IP to be
+                                         added is already there.
+                                        </p>
+									</section>
+									<section>
+										<h3>Code samples & Demo</h3>
+										<p>This is the final version of the script:
+										</p>
+
+                                        <script src="https://gist.github.com/phd208/36066ec7c5edec4a4753228c4085b56d.js"></script>
+
+									</section>
+									<section>
+										<h3>Lessons learned</h3>
+										<p>This script project underscored, for me, the utility of the language's straightforward syntax and 
+                                            accessible libraries. The availability of tools like <code>os</code>, for file existence checking, and 
+                                            <code>argparse</code>, for command-line parsing, allowed for the implementation of a practical 
+                                            and functional script. 
+										</p>
+									</section>
+									<section>
+									<h3>Conclusion</h3>
+									<p>Overall, we can see Python's efficiency for handling file operations and custom user inputs 
+                                        without unnecessary complexity.                                   
+                                        Its simplicity, coupled with essential standard libraries, streamlined the development 
+                                        of the script – showcasing Python's role as a versatile and approachable programming language.
+									</p>
+									</section>
+								</div>
+							</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+            <script src="assets/js/prism.js"></script>
+
+	</body>
+</html>
