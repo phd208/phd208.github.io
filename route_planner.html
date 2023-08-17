@@ -1,0 +1,370 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Pedro Dornas</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/prism.css"/>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<section id="header">
+				<header>
+					<span class="image avatar"><img src="images/profile-pic.png" alt="" /></span>
+					<h1 id="logo"><a href="#">Pedro Dornas</a></h1>
+					<p>I got reprogrammed by a rogue AI<br />
+					and now I'm totally cray</p>
+				</header>
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html#one">Who am I</a></li>
+						<li><a href="index.html#two">Skills</a></li>
+						<li><a href="index.html#three" class="active">Featured Projects</a></li>
+						<li><a href="index.html#four">Contact</a></li>
+					</ul>
+				</nav>
+				<footer>
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/pedrodornas" class="icon brands fa-linkedin"><span class="label">Twitter</span></a></li>
+						<li><a href="https://www.facebook.com/pedrodornas" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+						<li><a href="https://instagram.com/pedrodornas" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="https://github.com/phd208" class="icon brands fa-github"><span class="label">Github</span></a></li>
+						<li><a href="mailto:pedrodornas@live.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+				</footer>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="image main" data-position="center">
+									<img src="images/banner.jpg" alt="" />
+								</div>
+								<div class="container">
+									<header class="major">
+										<h2>Route Planner</h2>
+									</header>
+									<section>
+										<h3>Summary</h3>
+										<p>The A* Search Route Planner is a	pathfinding project 
+											that applies the A* algorithm on real-world OpenStreetMap data to 
+											determine the shortest route between two points 
+											and visually represent it using the IO2D library.
+										</p>
+									</section>
+									<section>
+										<h3>Introduction</h3>
+										<p>The A* Search Route Planner is a project I undertook 
+											to implement a pathfinding algorithm on real-world map 
+											data. It uses data from OpenStreetMap, represented 
+											through various data structures, and then applies the 
+											A* search algorithm to find the shortest path between 
+											two points on the map.
+										</p>
+									</section>
+									<section>
+									<h3>Technologies used</h3>
+									<p>
+									<ul>
+										<li><strong>A* Algorithm:</strong> core pathfinding logic that drives the route planning</li>
+										<li><strong>OpenStreetMap (OSM) Data:</strong> source of real-world map data on which the route planner operates</li>
+										<li><strong>IO2D Library:</strong> graphics library utilized for rendering and visualizing the map data, including the calculated routes.</li>
+										<li><strong>C++:</strong> the programming language in which the route planner and its associated functionalities are written
+										</li>
+										<li><strong>Class Inheritance:</strong> this object-oriented programming concept was used to extend the Model and Node data structures for specialized functionalities.</li>
+										<li><strong>Vector Data Structures:</strong> used to hold information about nodes, paths, and other essential route planning details.</li>
+									</ul> </p>
+
+									</section>
+									<section>
+										<h3>Structure</h3>
+										<ol>
+											<li>Model class (<code>model.h</code>, <code>model.cpp</code>):
+												<ul>
+													<li>designed to represent a geographical map parsed from XML data</li>
+												 	<li>contains structures to represent different geographical elements like nodes (points), ways (paths), roads, railways, and various polygonal structures (like buildings and waters)</li>
+												</ul>
+											</li>
+											<li>RouteModel class (<code>route_model.h</code>, <code>route_model.cpp</code>):
+												<ul>
+													<li>specialized data structure designed to store and represent the map in a format conducive to routing operations</li>
+													<li>its constructor takes in an XML representation of the map and parses it into its internal structures</li>
+													<li>saves nodes associated with roads in a hashmap data structure for efficient lookup</li>
+													<li>contains nested class <code>Node</code> which represents single points in the map, and whose member variables store: a pointer to its parent (default is null), <code>h_value</code> (distance to end node), <code>g_value</code> (cost from start node), a bool variable <code>visited</code>, and a vector of pointers to its neighbors</li>
+												</ul>
+											</li>
+											<li>RoutePlanner class (<code>route_planner.h</code>, <code>route_planner.cpp</code>):
+												<ul>
+													<li>responsible for planning the route using the A* search algorithm</li>
+													<li>its constructor takes in a reference to a RouteModel object, as well as starting and ending coordinates</li>
+													<li>from the start node, it adds its neighboring nodes to the open list, calculates their heuristic value (<code>h_value</code>), chooses the next node on the path based on its combined cost (<code>g_value</code> + <code>h_value</code>), and finally constructs the final path once the end node is reached</li>
+												</ul>
+											</li>
+											<li>
+												Render class (<code>render.h</code>, <code>render.cpp</code>):
+												<ul>
+													<li>provides visualization functionalities for the geographical data within the route model using <code>io2d</code> graphics library</li> 
+													<li>its constructor takes in a RouteModel object and calls helper functions responsible for mapping different road types (motorway, footway, primary, etc.) and land-use types (construction, grass, forest, etc.) to their respective pretedermined visual representation details (RGB, metrics, etc.)</li>
+													<li>contains the function <code>Display()</code> which is eventually called by main (after the A* search algorithm executes), taking as input a <code>io2d::output_surface</code> object – the canvas on which the graphics will be drawn –, and will ultimately show the final planned route</li>
+												</ul>
+											</li>
+										</ol>
+									</section>
+									<section>
+										<h3>Code flow</h3>
+										<p>At a high-level, that is the flow of the <code>main()</code> function:</p><br>
+											<pre class="mermaid">
+												%%{
+													init: {
+													  'theme': 'base',
+													  'fontSize': '26px',
+													  'wrap': 'true',
+													  'width': '210',
+													  'themeVariables': {
+														'fontFamily': 'Source Code Pro',
+														'actorBkg': '#1f3466',
+														'actorTextColor': '#fff',
+														'labelBoxBkgColor': '#1f3466',
+														'actorBorder': '#7eb2e3'
+													  }
+													}
+												  }%%
+												  sequenceDiagram
+												  participant Main as Main
+												  participant FileReader as ReadFile 
+												  participant RP as RoutePlanner
+												  participant Model as RouteModel
+												  participant RenderFunc as Render
+												  participant Display as io2d::surface
+											  
+												  Main->>FileReader: Call ReadFile with .osm file
+												  FileReader->>Main: Return osm data
+											  
+												  Main->>Main: Get coords from user
+												  Main->>Model: Create model = RouteModel(osm data)
+												  Main->>RP: Create planner = RoutePlanner(model, start, end)
+												  RP->>Main: Call planner.AStarSearch()
+												  Main->>Main: Print distance
+												  Main->>RenderFunc: Create render = Render(model)
+												  Main->>Display: Setup io2d::output_surface
+												  Display->>RenderFunc: render.Display(surface)
+												  Display-->>Main: Show rendering
+											</pre>
+											<p><br>
+											<ol>
+												<li><strong>Initialization:</strong> with the <code>osm_data_file</code> as the argument, the <code>main</code> function calls the <code>ReadFile</code> function, which returns the osm data</li>
+												<li><strong>User input:</strong> the <code>main</code> function prompts and gathers the starting and ending coordinates from the user</li>
+												<li><strong>Model building:</strong> a <code>RouteModel</code> object is instantiated using the acquired osm data</li>
+												<li><strong>Route planning:</strong> a <code>RoutePlanner</code> object is instantiated with the start and end coordinates, with which it performs the A* search and outputs the distance of the planned route</li>
+												<li><strong>Rendering process: </strong> a <code>Render</code> object is created using the instantiated model, after which the <code>io2d::output_surface</code> is instantiated in a variable named display. 
+													
+													The display object calls the Display method on the Render object to visualize the results.
+													Once the rendering is done, it returns control back to <code>main</code>.</li>
+											</ol>	</p>
+										
+							
+
+									
+									</section>
+									<section>
+										<h3>The A* algorithm</h3>
+										<h4>Overview</h4>
+										<p><strong>A*</strong> is a widely-used pathfinding and graph traversal algorithm that finds the shortest path from a 
+										 starting node to a goal node in a weighted graph. </p> 
+										 <p>It combines the benefits of <strong>Dijkstra</strong>'s algorithm 
+										 – which guarantees the shortest path by exploring all possible paths in order of increasing distance 
+										 from the start, and the heuristic-driven approach of Greedy <strong>Best-First Search</strong> – which estimates the 
+										 cost to reach the goal and explores paths that seem promising.</p>
+										 <p>
+										 A* uses a heuristic function to prioritize 
+										 nodes based on their estimated cost to reach the goal (h-value) in combination with the actual cost to reach the 
+										 current node (g-value). This dual approach ensures that A* is both optimal (it finds the shortest path) and 
+										 efficient (it examines fewer nodes than Dijkstra's algorithm by using the heuristic). The algorithm 
+										 continues evaluating paths until the goal is reached or if there are no more nodes to explore, 
+										 indicating that no path exists.</p>
+										<h4>Code sample</h4>
+										<p>This is the A* search algorithm implementation used in this project:</p>
+<pre><code class="language-cpp">void RoutePlanner::AStarSearch() {
+	RouteModel::Node *current_node = nullptr;
+	start_node->visited = true;
+		open_list.push_back(start_node);
+		while (open_list.size() > 0) {
+			current_node = NextNode();
+			if (current_node.distance(end_node)==0) {
+			m_Model.path = ConstructFinalPath(current_node);
+				return;
+		}
+		AddNeighbors(current_node);
+	} 
+}
+</code></pre><br>
+<p>These are the sequence of steps taken by the algorithm, reflected in a sequence diagram you can find below:</p>
+<ol>
+	<li>Initialization:
+		<ul>
+			<li>Set the starting node's cost-to-start (<code>g_value</code>) to 0.</li>
+			<li>Calculate the heuristic estimate (<code>h_value</code>) from the starting node to the goal.</li>
+			<li>Mark the starting node as "visited" and add it to an "open list" (list of nodes to be evaluated).</li>
+		</ul></li>
+	<li>Main Loop (while the open list is not empty):
+		<ul>
+			<li>Find the node with the lowest combined cost (<code>f_value = g_value + h_value</code>) from the open list. This is the "current node."</li>
+			<li>Remove the current node from the open list.</li>
+			<li>Check if the current node is the goal node.
+				<ul></li>
+					<li>If yes, reconstruct the path from the start to the goal by backtracking from the goal node using parent pointers. Then, terminate the algorithm.</li>
+					<li>Otherwise, for each of the current node's neighbors:
+						<ul>
+							<li>If the neighbor has not been visited:
+								<ul>
+									<li>Set its parent to the current node.</li>
+									<li>Calculate its <code>g_value</code> (cost from the start node to this node).</li>
+									<li>Calculate its <code>h_value</code> (heuristic estimate to the goal).</li>
+									<li>Mark the neighbor as visited and add it to the open list.</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+
+		</ul></li>
+		<li>Termination:
+			<ul>
+				<li>If the open list is empty and the goal has not been reached, a path does not exist.</li>
+				<li>Otherwise, if a path has been reconstructed, that path is the shortest path from the start to the goal.</li>
+			</ul>
+			</li>
+</ol>
+
+
+
+
+
+
+										<pre class="mermaid">
+											%%{
+												init: {
+												  'theme': 'base',
+												  'fontSize': '12px',
+												  'themeVariables': {
+													'fontFamily': 'Source Code Pro',
+													'actorBkg': '#1f3466',
+													'actorTextColor': '#fff',
+													'labelBoxBkgColor': '#1f3466',
+													'actorBorder': '#7eb2e3'
+												  }
+												}
+											  }%%
+											sequenceDiagram
+    participant RP as RoutePlanner
+    participant Node as RouteModel::Node
+    
+    RP->>RP: AStarSearch()
+    RP->>Node: Mark start_node as visited
+    RP->>RP: Push start_node to open_list
+    loop until open_list is empty
+        RP->>RP: NextNode()
+        RP->>RP: Sort open_list by f_value
+        RP-->>RP: Pop and return lowest f_value node
+        RP->>RP: Check if current_node is end_node
+        alt current_node is end_node
+            RP->>RP: ConstructFinalPath(current_node)
+            RP->>RP: Create path_found vector and calculate distance
+            RP-->>RP: Return from AStarSearch (path found)
+        else
+            RP->>RP: AddNeighbors(current_node)
+            RP->>Node: FindNeighbors()
+            loop for each neighbor
+                RP->>RP: CalculateHValue(node)
+                Node-->>RP: distance to end_node
+                RP->>RP: Calculate g_value
+                Node->>RP: distance(*current_node)
+                RP->>RP: Push neighbor to open_list
+                RP->>Node: Mark node as visited
+            end
+        end
+    end
+
+										</pre>
+										<br>
+									</section>
+									<section>
+										<h3>Demo</h3>
+										<p>You can find the code repository <a href="https://github.com/phd208/AStarMap"> here</a>,
+											along with a list of its dependencies and instructions as to cloning, compiling and running the project.</p>
+											<p>The user can specify a map file with the <code>-f</code> option followed by the filename
+											<pre><code class="language-bash">$ [executable] [-f filename.osm]</code></pre></p>
+											<p>If the user runs the program without any arguments, the program will use a default OSM data file.
+											<pre><code class="language-bash">$ ./OSM_A_star_search
+Reading OpenStreetMap data from the following file: ../map.osm</code></pre></p>
+											<p>Once the project has been compiled and ran, the user is prompted by the console to input
+											the x and y coordinates for the start and end nodes, ranging from 0 to 100. The (0,0) coordinate is the 
+											bottom-left corner of the map.</p> 
+											<p> Running the program
+											with random coordinates for start (23,43) and end (90, 89) on the default map file generates the following output:
+										<pre><code class="language-bash">Enter start_x: 23
+Enter start_y: 43
+Enter end_x: 90
+Enter end_y: 89
+Distance: 673.586 meters.</code></pre>
+<br>
+<p>And the image with the planned route from start (green dot) to end (red dot) is rendered on the screen:</p>
+<span class="image fit"><img src="images/map.png" alt="" /></span>
+										</p>
+									</section>
+									<section>
+									<h3>Conclusion</h3>
+									<p>This project was a modest but fruitful opportunity to further my understanding of the C++,
+										and to solidify the concepts and implementation details related to the A* algorithm.
+										It also underlined how powerful integrating tools such as the IO2D library and OpenStreetMap
+										data can be. 
+									</p>
+									</section>
+								</div>
+							</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+
+			
+							<ul class="copyright">
+								<li>Copyright &copy; 2023 Pedro H Dornas. All rights reserved.</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/prism.js"></script>
+			<script type="module">
+				import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+				mermaid.initialize({ 
+					startOnLoad: true,
+					htmlLabels: true,
+					theme: 'base',
+					themeVariables: {
+						
+					}
+				});
+				await mermaid.run({
+				querySelector: '.someOtherClass',
+				});
+			</script>
+	</body>
+</html>

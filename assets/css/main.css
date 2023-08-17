@@ -34,6 +34,7 @@
 
 
 
+
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,
@@ -225,6 +226,16 @@ input, select, textarea {
 		font-style: italic;
 		margin: 0 0 2.25em 0;
 		padding: 0.5em 0 0.5em 2em;
+	}
+
+	tagg {
+		background: #5787c9;
+		border-radius: 50px;
+		color: var(--code-color);
+		font-family: "Source Code Pro", monospace;
+		font-size: 0.9em;
+		margin: 0 0.25em;
+		padding: 0.25em 0.65em;
 	}
 
 	code {
@@ -2866,11 +2877,13 @@ input, select, textarea {
 /* Footer */
 
 	#footer {
+		position: relative;
 		background: var(--input-background);
 		border-top: 0;
 		color: var(--footer-color);
 		overflow: hidden;
-		padding: 4em 0 2em 0;
+		padding: 0 0 2em 0;
+		justify-content: center;
 	}
 
 		#footer .copyright {
@@ -3341,3 +3354,16 @@ input, select, textarea {
 			}
 
 	}
+
+	.mermaid svg {
+		display: block;
+		margin: 0 auto;
+		padding:0;
+		max-width: 0%;
+		height: auto;
+	}
+
+
+
+	
+	
