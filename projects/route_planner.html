@@ -4,14 +4,14 @@
 		<title>Pedro Dornas</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="stylesheet" href="assets/css/prism.css"/>
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<link rel="stylesheet" href="../assets/css/prism.css"/>
 	</head>
 	<body class="is-preload">
-
+		
 		<!-- Header -->
-
-			<custom-header></custom-header>
+		<custom-header></custom-header>
+			<custom-project></custom-project>
 
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -22,7 +22,7 @@
 						<!-- One -->
 							<section id="one">
 								<div class="image main" data-position="center">
-									<img src="images/banner.jpg" alt="" />
+									<img src="../images/ubcmap.png" alt="" />
 								</div>
 								<div class="container">
 									<header class="major">
@@ -293,7 +293,7 @@ Enter end_y: 89
 Distance: 673.586 meters.</code></pre>
 <br>
 <p>And the image with the planned route from start (green dot) to end (red dot) is rendered on the screen:</p>
-<span class="image fit"><img src="images/map.png" alt="" /></span>
+<span class="image fit"><img src="../images/map.png" alt="" /></span>
 										</p>
 									</section>
 									<section>
@@ -308,41 +308,33 @@ Distance: 673.586 meters.</code></pre>
 							</section>
 
 				<!-- Footer -->
-					<section id="footer">
-						<div class="container">
-
-			
-							<ul class="copyright">
-								<li>Copyright &copy; 2023 Pedro H Dornas. All rights reserved.</li>
-							</ul>
-						</div>
-					</section>
+					<custom-footer></custom-footer>
 
 			</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/header.js"></script>
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-			<script src="assets/js/prism.js"></script>
-			<script src="assets/js/mermaid.min.js"></script>
-			<script type="module">
-				mermaid.initialize({ 
-					startOnLoad: true,
-					htmlLabels: true,
-					theme: 'base',
-					themeVariables: {
-						
-					}
-				});
-				await mermaid.run({
-				querySelector: '.someOtherClass',
-				});
-			</script>
+		<script src="../assets/js/header.js"></script>
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script src="../assets/js/prism.js"></script>
+		<script src="../assets/js/mermaid.min.js"></script>
+		<script type="module">
+			mermaid.initialize({ 
+				startOnLoad: true,
+				htmlLabels: true,
+				theme: 'base',
+				themeVariables: {
+					
+				}
+			});
+			await mermaid.run({
+			querySelector: '.someOtherClass',
+			});
+		</script>
 	</body>
 </html>

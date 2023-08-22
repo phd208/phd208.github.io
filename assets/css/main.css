@@ -229,11 +229,13 @@ input, select, textarea {
 	}
 
 	tagg {
-		background: #5787c9;
+		background: #7eb2e3;
+		color: #fff;
+		/* background: #7eb2e3;
+		color: #1f3466; */
 		border-radius: 50px;
-		color: var(--code-color);
 		font-family: "Source Code Pro", monospace;
-		font-size: 0.9em;
+		font-size: 0.75em;
 		margin: 0 0.25em;
 		padding: 0.25em 0.65em;
 	}
@@ -2225,6 +2227,18 @@ input, select, textarea {
 				width: 100%;
 			}
 
+		.image.fit2 {
+			display: block;
+			margin: 0 auto 2.25em 0;
+			width: 100%;
+		}
+
+			.image.fit2 img {
+				display: block;
+				width: 85%;
+				margin: 0 auto
+			}
+
 		.image.avatar {
 			border-radius: 100%;
 			overflow: hidden;
@@ -2897,6 +2911,7 @@ input, select, textarea {
 				display: inline-block;
 				font-size: 0.8em;
 				margin-left: 1em;
+				padding-top: 1em;
 				padding-left: 1em;
 			}
 

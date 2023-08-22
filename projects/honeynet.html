@@ -1,0 +1,404 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Pedro Dornas</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<link rel="stylesheet" href="../assets/css/prism.css"/>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<custom-header></custom-header>
+            <custom-project></custom-project>
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="image main" data-position="center">
+									<img src="../images/cloud.jpg" alt="" />
+								</div>
+								<div class="container">
+									<header class="major">
+										<h2>Honeynet in Azure</h2>
+									</header>
+									<section>
+										<h3>Summary</h3>
+										<p>A mini honeynet within Azure in which Log Analytics 
+                                        workspace and Microsoft Sentinel were used to map attacks,
+                                        alerts and incidents.
+										</p>
+                                        <span class="image fit"><img src="../images/diagram.png" alt="" /></span>
+									</section>
+									<section>
+										<h3>Introduction</h3>
+										<p>In this project, I build a mini honeynet in Azure and 
+                                        ingest log sources from various resources into a Log Analytics 
+                                        workspace, which is then used by Microsoft Sentinel to build 
+                                        attack maps, trigger alerts, and create incidents.</p>
+                                        <p> I measured some security metrics in the insecure environment for 24 hours, 
+                                        applied some security controls to harden the environment, measured 
+                                        metrics for another 24 hours, then compared the results (shown below). 
+                                        
+                                        The 
+                                        metrics we will show are:</p>
+                                  
+                                        <ul>
+                                            <li>SecurityEvent (Windows Event Logs)</li>
+                                            <li>Syslog (Linux Event Logs)</li>
+                                            <li>SecurityAlert (Log Analytics Alerts Triggered)</li>
+                                            <li>SecurityIncident (Incidents created by Sentinel)</li>
+                                            <li>AzureNetworkAnalytics_CL (Malicious Flows allowed into the honeynet)</li>
+                                        </ul>  
+										
+									</section>
+									<section>
+									<h3>Structure</h3>
+										<p>The architecture of the mini honeynet in Azure consists of the following components:</p>
+                                        <ul>
+                                            <li>Virtual Network (VNet)</li>
+                                            <li>Network Security Group (NSG)</li>
+                                            <li>Virtual Machines (2 windows, 1 linux)</li>
+                                            <li>Log Analytics Workspace</li>
+                                            <li>Azure Key Vault</li>
+                                            <li>Azure Storage Account</li>
+                                            <li>Microsoft Sentinel</li>
+                                        </ul>
+									</section>
+                                    <section>
+                                        <h3>Steps</h3>
+                                        <p> This section contain a high-level overview of the steps
+                                            taken while undertaking this project.
+                                            Many of the specific configuration steps envolved are well 
+                                            documented and subject to update by Microsoft. Therefore,
+                                            I will attempt to be as thorough as possible without 
+                                            cluttering the page with nitty-gritty details that can 
+                                            easily be looked up elsewhere.
+                                            
+                                        </p>
+                                        <section>
+											<h4>Step 1: Creating Azure subscription and first resources</h4>
+
+											<p>Firstly, I created an Azure Account and Subscription, which offers
+                                                a period of free service and a $200 credit for paid services
+                                                in the first 30 days – more than enough for this endeavour. It
+                                                was aptly named <code>Azure Subscription 1</code>.
+                                            </p>
+                                            <p>Under the subscription I created a resource group and established a 
+                                            virtual network, <code>RG-Cyber-Lab</code> and <code>Lab-VNet</code>,
+                                         respectively.</p>
+                                         <p>Within the same resource group, virtual network, and region (East US 2),
+                                        I created two virtual machines, one running Windows 10, and another
+                                        running Ubuntu Server 20.04 – respectively named <code>windows-vm</code>
+                                        (in which I installed SQL Server Management Studio) and <code>linux-vm</code>.</p>
+											
+                                            <h4>Step 2: Introducing vulnerabilities</h4>
+                                            <p>In a different resource group and region – <code>RG-Cyber-Lab-Attacker</code>,
+                                                 in <em>Australia East</em>
+                                                I instantiated a Windows 10 virtual machine named <code>attack-vm</code>,
+                                                from which I could eventually simulate brute-force attacks against the other VMs.</p>
+                                            <p>Next, it was time to work on the Network Security Groups
+                                                and open our VMs to all incoming inbound connections.</p>
+                                            <span class="image fit2"><img src="../images/honeynet_nsg.png" alt="" /></span>
+                                            <p>Within the NSGs of both the Windows and Linux VMs, I created
+                                            I (high-priority) rule accepting all inbound traffic. 
+                                            </p>
+                                            <p>The screenshot below portrays this step regarding the <code>linux-vm</code>NSG:</p>
+                                            <span class="image fit2"><img src="../images/honeynet_linux_nsg.png" alt="" /></span>
+
+                                            <p>The same was done with the <code>windows-vm</code>NSG. To further increase
+                                            the Windows machine's permeability to network traffic, I disabled the Windows Defender
+                                            Firewall for all profiles (<em>Domain</em>, <em>Private</em>, <em>Public</em>, <em>IPsec Settings</em>).</p> 
+										
+                                        <h4>Step 3: Preparation for logging and monitoring</h4>
+                                            <p>In preparation for the logging step, I created a storate account, dubbed <code>sacyberlab0x</code>, 
+                                            which would serve the primary purpose of storing NSG flow logs – as well as 
+                                            housing IP Geo-location information.</p>
+                                            <span class="image fit2"><img src="../images/honeynet_sa.png" alt="" /></span>
+                                            <p>With the storage set up, the log flow can begin. That is accomplished with the 
+                                                creation of a Log Analytics Workspace and then activating Microsoft Defender for Cloud,
+                                                within which flow logs from the virtual machines' NSG are enabled, as such:</p>
+                                                <h5>Step 3.1: Creating the Log Analytics Workspace</h5>
+                                                <p>A Law Analytics Workspace is created under the same resource group and region 
+                                                as the NSGs from which it will receive logs. </p>
+
+                                                <span class="image fit2"><img src="../images/honeynet_law.png" alt="" /></span>
+                                    
+                                            <h5>Step 3.2: Activating Microsoft Defender for Cloud</h5>
+                                            <p>First, turn on Defender Plans for both VMs and SQL instances operated therein:</p>
+                                            <span class="image fit2"><img src="../images/honeynet_mdcplans.png" alt="" /></span>
+                                            <p>Then, initiate Data Collection for all event types for the <code>windows-vm</code>:</p>
+                                            <span class="image fit2"><img src="../images/honeynet_mdc_events.png" alt="" /></span>
+                                            <h5>Step 3.3: Enabling Microsoft Defender for Cloud per subscription</h5>
+                                            <p>Enabled Microsoft Defender for Cloud under the subscription set up in step 1, 
+                                            covering servers, databases, storage accounts, and the key vault. </p>
+                                            <span class="image fit2"><img src="../images/honeynet_mdc_subs.png" alt="" /></span>
+                                            <h5>Step 3.4: Enabling Microsoft Defender for Cloud continuous export</h5>
+                                            <p>Within environment settings, enabled MDC continous export:</p>
+                                            <span class="image fit2"><img src="../images/honeynet_mdc_export.png" alt="" /></span>
+                                            <h5>Step 3.5: Creating a flow log</h5>
+                                            <span class="image fit2"><img src="../images/honeynet_mdc_flowlog.png" alt="" /></span>
+                                            <h5>Step 3.6: Creating a data collection rule</h5>
+                                            <p>Then, created a data collection rule, having the <code>windows-vm</code> and the <code>linux-vm</code>
+                                            as scope. For the purposes of this project, the idea was to keep track of login attempts, so for the 
+                                            Windows machine, the data source type was <em>Windows Event Logs</em> – specifically aimed at 
+                                            <em>information</em>, <em>audit success</em>, and <em>audit failure</em>; whereas for the Linux machine,
+                                            the data source type was <em>Linux Syslog</em>, under <code>LOG_AUTH</code>. In both cases, naturally,
+                                            the destination of this flow was set to the Law Analytics Workspace created above.</p> 
+                                            <span class="image fit2"><img src="../images/honeynet_mdc_rule.png" alt="" /></span>
+                                            <h5>Step 3.7: Installing Log Analytics Agent in the VMs</h5>
+                                            <p>Next, installed the Log Analytics Agent on both VMs.</p>
+                                            <p>In the <code>windows-vm</code> it is crucial to make sure that the option <em>Connect the agent to Azure Log
+                                                Analytics</em> is set.</p>
+                                            <span class="image fit2"><img src="../images/honeynet_law_agent.png" alt="" /></span>
+                                            <p>In the <code>linux-vm</code>, the Log Analytics Agent can be easily installed via the command-line 
+                                            by using the command provided by the Log Analytics Workspace:</p>
+                                            <span class="image fit2"><img src="../images/honeynet_law_agent_linux.png" alt="" /></span>
+                                            <h5>Step 3.8: Enabling Geo Data</h5>
+                                            <p>Created a Azure Storage account within the main resource group, and within it I created a container
+                                                in whihc I uploaded to <code>.csv</code> files containing tentative geo data (latitute, longitude)
+                                                corresponding to IP numbers.
+                                            </p>
+                                            <p>Then, setup Microsoft Sentinel, connected to the Log Analytics Workspace, and created Watchlists 
+                                                to ingest the geo-data from the csv files. This information will later allow for the creation of the attack maps.
+                                            </p>
+                                            <span class="image fit2"><img src="../images/honeynet_geodata.png" alt="" /></span>
+
+                                            <h4>Step 4: Configuring logging at tenant, subscription and resource levels</h4>
+                                            <p>This section entailed the creation of diagnostic settings to ingest Azure AD Logs –
+                                                <code>AuditLogs</code>, <code>SignInLogs</code> and send them to Log Analytics Workspace,
+                                                where they would be used by Microsoft Sentinel.
+                                            </p>
+                                            <span class="image fit2"><img src="../images/honeynet_adlog.png" alt="" /></span>
+                                            <p>Conversely, same was done at subscription level:</p>
+                                            <span class="image fit2"><img src="../images/honeynet_sublog.png" alt="" /></span>
+                                            <p>And then at resource level, for the storage:</p>
+                                            <span class="image fit2"><img src="../images/honeynet_resourcelog.png" alt="" /></span>
+                                            <p>And for the key vault:</p>
+                                            <span class="image fit2"><img src="../images/honeynet_key.png" alt="" /></span>
+
+
+                                            <h4>Step 5: Preparing attack maps</h4>
+                                            <p>Using pre-built JSON maps, I created four different workbooks in Sentinel in order to 
+                                                show different types of malicious traffic from around the world targeting my resources, namely:
+                                                <ul>
+                                                    <li>Windows RDP/SMB authentication failures</li>
+                                                    <li>Linux SSH authentication failures</li>
+                                                    <li>MS SQL Server authentication failures</li>
+                                                    <li>NSG allowed mallicious inbound flows</li>
+                                                </ul>
+                                            </p>
+
+
+                                    </section>
+
+									<section>
+										<h3>Before hardening security controls</h3>
+                                        <h4>Overview</h4>
+                                        <p> As laid out above, for the <strong><em>before</em></strong> metrics, all resources were originally 
+                                            deployed and exposed to the internet. The Virtual Machines had both their Network 
+                                            Security Groups and built-in firewalls wide open, and all other resources are deployed
+                                             with public endpoints visible to the Internet – meaning, no use for Private Endpoints.
+                                        </p>
+                                        <span class="image fit2"><img src="../images/honeynet_before.png" alt="" /></span>
+                                        
+                                        <h4>Metrics before hardening</h4>
+                                        <p>While setting up this insecure environment, the Log Analytics workspace was configured to ingest
+                                            logs from inbound live traffic and then feed it to Microsoft Sentinel which would in turn, 
+                                            generate attack maps, trigger alerts and create incidents. </p>
+                                            <p>Once that structure was in place, I set a 24-hour interval – from 20:34:47 on 2023-08-05 till 
+                                                the exact same time on 2023-08-06. The table below reveals the overall stats of the identified
+                                                security events:
+                                        
+                                            </p>
+                                        <div class="table-wrapper">
+											<table>
+												<thead>
+													<tr>
+														<th>Metric</th>
+														<th>Count</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>Security events (Windows-VMs)</td>
+														<td>92 999</td>
+													</tr>
+													<tr>
+														<td>Syslog (Linux-VMs)</td>
+														<td>3 741</td>
+													</tr>
+													<tr>
+														<td>Security Alert (MS Defender for Cloud)</td>
+														<td>7</td>
+													</tr>
+                                                    <tr>
+														<td>Security Incident (Sentinel)</td>
+														<td>452</td>
+													</tr>
+                                                    <tr>
+														<td>NSG Inbound malcious flows allowed</td>
+														<td>4 807</td>
+													</tr>
+												</tbody>
+										
+											</table>
+										</div>
+                                        <h4>Attack maps</h4>
+
+                                        <p>Based upon the IPs of the incoming connections related to the security events, </p>
+
+                                        <h5><em>Windows-VMs: RDP / SMB / General authentication failures</em></h5>
+                                        <span class="image fit2"><img src="../images/honeynet_windows_before.png" alt="" /></span>
+                                        <hr>
+                                        <h5><em>Linux-VMs: SSH authentication failures</em></h5>
+                                        <span class="image fit2"><img src="../images/honeynet_syslog_before.png" alt="" /></span>
+                                        <hr>
+                                        <h5><em>Azure SQL server: authentication failures</em></h5>
+                                        <span class="image fit2"><img src="../images/honeynet_msql_before.png" alt="" /></span>
+                                        <hr>
+                                        <h5><em>Network Security Groups: malicious flows</em></h5>
+                                        <span class="image fit2"><img src="../images/honeynet_nsg_before.png" alt="" /></span>
+
+                                        <h3>Measures taken</h3>
+                                        <p>In broad terms, the containment measures entailed:
+                                            <ul>
+                                                <li>adding regulatory compliancy standards to MDC</li>
+                                                <li>disabling key vault and storage public access</li>
+                                                <li>creating private endpoint for all resources </li>
+                                                <li>creating a new NSG and attaching it to the existing subnet</li>
+                                            </ul>
+                                            This was the resulting topology:
+                                            <span class="image fit2"><img src="../images/honeynet_topology.png" alt="" /></span>
+
+                                        </p>
+                                        <blockquote><strong>NOTE:</strong> this project also involved the creation of custom analytic query rules
+                                            for alerts that then created incidents, each of which was then met with an incident response in allignment 
+                                            with NIST 800-61. Given the level of detail that this part entailed, it merits its own post, still underway. </blockquote>
+                                            </section>
+                                        
+
+                                        <section>
+											
+                                            
+											<h3>After hardening security controls</h3>
+                                            <p>For the  <strong><em>after</em></strong> metrics, Network Security Groups were 
+                                                hardened by blocking ALL traffic with the exception of my admin workstation, and 
+                                                all other resources were protected by their built-in firewalls as well as Private Endpoint.
+                                                </p>
+                                            <span class="image fit2"><img src="../images/honeynet_after.png" alt="" /></span>
+                                            <span class="image fit2"><img src="../images/honeynet_topology.png" alt="" /></span>
+                                            <h4>Metrics after hardening</h4>
+                                            <div class="table-wrapper">
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Metric</th>
+                                                            <th>Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Start time</td>
+                                                            <td>2023-08-08T16:18:28.5082029Z</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Stop time</td>
+                                                            <td>2023-08-09T16:18:28.5082029Z</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Security events (Windows-VMs)</td>
+                                                            <td>12 657 (-86%)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Syslog (Linux-VMs)</td>
+                                                            <td>1 (-99.97%)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Security Alert (MS Defender for Cloud)</td>
+                                                            <td>0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Security Incident (Sentinel)</td>
+                                                            <td>0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>NSG Inbound malcious flows allowed</td>
+                                                            <td>0</td>
+                                                        </tr>
+                                                    </tbody>
+                                            
+                                                </table>
+                                            </div>
+                                        </section>
+									</section>
+
+									
+									<section>
+									<h3>Conclusion</h3>
+									<p>To recap, this project consisted in setting up a mini honeynet within Microsoft 
+                                    Azure and integrating log sources into the Log Analytics workspace. Then, using Microsoft Sentinel, 
+                                    I initiated alerts and established incidents from the received logs. </p>
+                                    
+                                    <p> Before applying security controls, I assessed metrics in the vulnerable environment
+                                     and then reassessed post-implementation.</p>
+                                    <p>Notably, there was a significant drop in security events and incidents post-security 
+                                        measures, indicating their value.</p>
+
+									
+									</section>
+                                    <section>
+										<h3>Future steps</h3>
+										<p>This project containes numerous steps and touches many different aspects of network security 
+                                        that merit their own study given its complexity, such as the use of Kusto Query Language (KQL),
+                                        Powershell scripting, the creation of custom analytics rules and the scpecificities of incident response
+                                        as laid out in NIST's Incident Handling Guide (800-61).</p>
+                                        <p>That said, the plan is to write other posts drilling further in those details.</p>
+									</section>
+								</div>
+							</section>
+
+				<!-- Footer -->
+					<!-- <section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section> -->
+                    <custom-footer></custom-footer>
+
+			</div>
+
+		<!-- Scripts -->
+            <script src="../assets/js/header.js"></script>
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../assets/js/browser.min.js"></script>
+			<script src="../assets/js/breakpoints.min.js"></script>
+			<script src="../assets/js/util.js"></script>
+			<script src="../assets/js/main.js"></script>
+			<script src="../assets/js/prism.js"></script>
+			<script src="../assets/js/mermaid.min.js"></script>
+			<script type="module">
+				mermaid.initialize({ 
+					startOnLoad: true,
+					htmlLabels: true,
+					theme: 'base',
+					themeVariables: {
+						
+					}
+				});
+				await mermaid.run({
+				querySelector: '.someOtherClass',
+				});
+			</script>
+
+	</body>
+</html>
