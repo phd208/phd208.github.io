@@ -4,7 +4,7 @@ class Header extends HTMLElement {
 <section id="header">
     <header>
         <span class="image avatar"><img src="../images/profile-pic.png" alt="" /></span>
-        <h1 id="logo"><a href="#">Pedro Dornas</a></h1>
+        <h1 id="logo"><a href="../index.html">Pedro Dornas</a></h1>
         <p></p>
     </header>
     <nav id="nav">
