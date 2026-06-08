@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+const projects = [
+  {
+    title: 'SVA property templates',
+    description: 'A Python utility that generates JasperGold-ready SVA property scaffolding from a simple YAML spec. Reduces boilerplate for common verification patterns.',
+    tags: ['Python', 'SVA', 'JasperGold'],
+    status: 'In progress',
+    href: 'https://github.com/phd208',
+  },
+  {
+    title: 'RISC-V formal verification',
+    description: 'Formal verification of selected blocks in an open-source RISC-V core using SymbiYosys. Accompanies a write-up on the methodology and findings.',
+    tags: ['RISC-V', 'SymbiYosys', 'SVA'],
+    status: 'Planned',
+    href: null,
+  },
+];
+---
+
+<Base title="Projects" description="Open-source formal verification projects by Pedro Dornas">
+  <div class="container">
+    <div class="page-header">
+      <h1>Projects</h1>
+      <p class="page-sub">Open-source work — tools, experiments, and verification projects.</p>
+    </div>
+
+    <div class="project-list">
+      {projects.map(p => (
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-title">
+              {p.href
+                ? <a href={p.href} target="_blank" rel="noopener">{p.title}</a>
+                : p.title
+              }
+            </div>
+            <span class:list={['status-badge', p.status === 'In progress' ? 'status-wip' : 'status-planned']}>
+              {p.status}
+            </span>
+          </div>
+          <p class="project-desc">{p.description}</p>
+          <div class="project-tags">
+            {p.tags.map(t => <span class="tag">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Base>
+
+<style>
+.page-header { padding: 3rem 0 2rem; border-bottom: 1px solid var(--color-border); margin-bottom: 2rem; }
+h1 { margin-bottom: 0.5rem; }
+.page-sub { color: var(--color-muted); font-size: 0.95rem; margin: 0; }
+
+.project-list { display: flex; flex-direction: column; gap: 1rem; }
+.project-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  background: var(--color-bg-subtle);
+}
+.project-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
+.project-title { font-size: 1rem; font-weight: 500; color: var(--color-text); }
+.project-title a { color: var(--color-text); }
+.project-title a:hover { color: var(--color-accent); text-decoration: none; }
+.project-desc { font-size: 0.875rem; color: var(--color-muted); margin-bottom: 0.75rem; line-height: 1.6; }
+.project-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.status-badge {
+  font-size: 0.7rem;
+  padding: 0.2em 0.65em;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.status-wip { background: #e8f2f9; color: #1d6fa4; }
+.status-planned { background: var(--color-tag-bg); color: var(--color-muted); }
+
+@media (prefers-color-scheme: dark) {
+  .status-wip { background: #1a2e3a; color: #5aabdc; }
+}
+</style>

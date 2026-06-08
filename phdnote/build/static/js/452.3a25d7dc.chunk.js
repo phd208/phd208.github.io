@@ -1,2 +1,0 @@
-(this["webpackJsonp@phdnote/local-client"]=this["webpackJsonp@phdnote/local-client"]||[]).push([[452],{623:function(t,e){Prism.languages["t4-vb"]=Prism.languages["t4-templating"].createT4("vbnet")}}]);
-//# sourceMappingURL=452.3a25d7dc.chunk.js.map

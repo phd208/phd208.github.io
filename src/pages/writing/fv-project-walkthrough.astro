@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base title="A complete FV project, start to finish" description="From microarchitecture spec to coverage closure">
+  <div class="container">
+    <div class="article-header">
+      <div class="article-meta">
+        <span class="tag">FV methodology</span>
+        <span class="tag">JasperGold</span>
+      </div>
+      <h1>A complete formal verification project, start to finish</h1>
+      <p class="article-desc">
+        From microarchitecture spec to coverage closure — how a real FV engagement
+        is structured and executed.
+      </p>
+    </div>
+
+    <div class="article-body">
+      <p class="placeholder-notice">
+        Full article coming soon. Outline below.
+      </p>
+
+      <h2>Outline</h2>
+      <ol>
+        <li>Reading the microarchitecture specification — what to look for</li>
+        <li>Writing the Verification Plan — scope, intent, and coverage goals</li>
+        <li>Writing the Verification Architecture Specification</li>
+        <li>Building the formal testbench in SystemVerilog</li>
+        <li>Writing SVA properties — sequences, properties, and auxiliary code</li>
+        <li>Setting up the JasperGold environment with TCL scripting</li>
+        <li>Running proofs — interpreting results, vacuity, and unreachability</li>
+        <li>Complexity reduction — when and how to use abstraction and blackboxing</li>
+        <li>Bug triage and root-cause collaboration with the design team</li>
+        <li>Coverage closure — what done actually looks like</li>
+      </ol>
+    </div>
+  </div>
+</Base>
+
+<style>
+.article-header {
+  padding: 3rem 0 2rem;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 2rem;
+}
+.article-meta { display: flex; gap: 0.4rem; margin-bottom: 0.875rem; }
+h1 { margin-bottom: 0.75rem; font-size: 1.75rem; }
+.article-desc {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  max-width: 560px;
+  margin: 0;
+  line-height: 1.6;
+}
+.article-body { padding-bottom: 4rem; max-width: 660px; }
+.article-body h2 { border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; }
+.article-body ol { color: var(--color-text); }
+.article-body li { margin-bottom: 0.5rem; font-size: 0.95rem; }
+.placeholder-notice {
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-bottom: 2rem;
+}
+</style>

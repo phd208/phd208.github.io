@@ -1,2 +1,0 @@
-(this["webpackJsonp@phdnote/local-client"]=this["webpackJsonp@phdnote/local-client"]||[]).push([[462],{633:function(e,t){!function(e){var t=e.util.clone(e.languages.typescript);e.languages.tsx=e.languages.extend("jsx",t);var n=e.languages.tsx.tag;n.pattern=RegExp(/(^|[^\w$]|(?=<\/))/.source+"(?:"+n.pattern.source+")",n.pattern.flags),n.lookbehind=!0}(Prism)}}]);
-//# sourceMappingURL=462.67f744f7.chunk.js.map

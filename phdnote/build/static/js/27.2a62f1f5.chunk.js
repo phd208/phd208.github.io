@@ -1,2 +1,0 @@
-(this["webpackJsonp@phdnote/local-client"]=this["webpackJsonp@phdnote/local-client"]||[]).push([[27],{198:function(n,t){Prism.languages.arff={comment:/%.*/,string:{pattern:/(["'])(?:\\.|(?!\1)[^\\\r\n])*\1/,greedy:!0},keyword:/@(?:attribute|data|end|relation)\b/i,number:/\b\d+(?:\.\d+)?\b/,punctuation:/[{},]/}}}]);
-//# sourceMappingURL=27.2a62f1f5.chunk.js.map

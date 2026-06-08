@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="About" description="About Pedro Dornas — Formal Verification Engineer at Intel">
+  <div class="container">
+    <div class="about-wrap">
+      <h1>About</h1>
+
+      <p>
+        I'm a Formal Verification Engineer at Intel in Vancouver, BC. I work on
+        pre-silicon verification of hardware IP blocks — writing SystemVerilog
+        Assertions, building formal testbenches, running JasperGold proof campaigns,
+        and driving coverage closure on digital designs across interconnect,
+        protocol conversion, and hardware-firmware interface blocks.
+      </p>
+
+      <p>
+        My background is unusual for this field. Before moving to Canada in 2019,
+        I spent over a decade as a public auditor and attorney in Brazil — work that
+        was fundamentally about finding inconsistencies between a system's specified
+        behaviour and its actual behaviour. Formal verification turns out to be the
+        same problem, stated more precisely.
+      </p>
+
+      <p>
+        I hold a BSc in Computer Science from the University of British Columbia
+        and am currently completing a Master of Engineering in Computer Engineering.
+        I'm working toward P.Eng designation with Engineers and Geoscientists BC.
+      </p>
+
+      <h2>What I'm working on</h2>
+      <ul>
+        <li>Deepening formal methods foundations — model checking theory, CTL/LTL, SAT/BDD</li>
+        <li>Broadening tool exposure beyond JasperGold (VC Formal, Questa Formal)</li>
+        <li>Building this site as a public record of things I've learned</li>
+        <li>A formal verification project on an open-source RISC-V core (coming soon)</li>
+      </ul>
+
+      <h2>Elsewhere</h2>
+      <ul>
+        <li><a href="https://github.com/phd208" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/pedrodornas" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+</Base>
+
+<style>
+.about-wrap {
+  padding: 3rem 0;
+  max-width: 620px;
+}
+h1 { margin-bottom: 1.5rem; }
+p { color: var(--color-text); margin-bottom: 1.25rem; }
+h2 { color: var(--color-text); }
+ul { color: var(--color-text); margin-bottom: 1.25rem; }
+li { margin-bottom: 0.4rem; }
+</style>
