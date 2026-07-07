@@ -1,7 +1,7 @@
 # security.txt for pedrodornas.dev - RFC 9116
 # https://pedrodornas.dev/.well-known/security.txt
 
-Contact: mailto:pedrodornas@gmail.com
+Contact: mailto:security@hushpdf.app
 Expires: 2027-07-07T00:00:00.000Z
 Preferred-Languages: en, pt
 Canonical: https://pedrodornas.dev/.well-known/security.txt
